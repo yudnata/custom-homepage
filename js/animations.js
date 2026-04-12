@@ -94,11 +94,6 @@ function startHomepage() {
   const homepageTl = gsap.timeline();
 
   homepageTl
-    .to('#homepage', {
-      opacity: 1,
-      duration: 0.5,
-      ease: 'power2.out',
-    })
     .to(
       '.clock-block',
       {
@@ -139,6 +134,15 @@ function startHomepage() {
       '-=0.1',
     )
     .to(
+      '#dock-toggle',
+      {
+        opacity: 1,
+        duration: 0.3,
+        ease: 'power2.out',
+      },
+      '<',
+    )
+    .to(
       '.bookmark-card',
       {
         opacity: 1,
@@ -149,16 +153,6 @@ function startHomepage() {
         from: { y: 16 },
       },
       '-=0.2',
-    )
-    .from(
-      '.bookmark-card',
-      {
-        y: 16,
-        duration: 0.4,
-        stagger: 0.04,
-        ease: 'power3.out',
-      },
-      '-=0.4',
     );
 }
 
@@ -192,19 +186,12 @@ function animateSearchRing() {
   playRing();
 }
 
-document.addEventListener('mousemove', (e) => {
-  const grid = document.getElementById('bookmarks-grid');
-  if (!grid) return;
+const dockToggle = document.getElementById('dock-toggle');
+const grid = document.getElementById('bookmarks-grid');
 
-  const isVisible = grid.classList.contains('dock-visible');
-
-  if (!isVisible) {
-    if (e.clientX > window.innerWidth - 60) {
-      grid.classList.add('dock-visible');
-    }
-  } else {
-    if (e.clientX < window.innerWidth - 270) {
-      grid.classList.remove('dock-visible');
-    }
-  }
-});
+if (dockToggle && grid) {
+  dockToggle.addEventListener('click', () => {
+    grid.classList.toggle('dock-hidden');
+    dockToggle.classList.toggle('dock-hidden');
+  });
+}

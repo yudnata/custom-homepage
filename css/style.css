@@ -33,7 +33,7 @@ body {
   inset: 0;
   z-index: 100;
   background-color: var(--bg);
-  background-image: url('../assets/bg.jpg');
+  background-image: url('../assets/background.jpg');
   background-size: cover;
   background-position: center;
   display: flex;
@@ -45,7 +45,7 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(0, 0, 0, 0.75);
 }
 
 .splash-content {
@@ -112,7 +112,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  opacity: 0;
 }
 
 #homepage::before {
@@ -263,9 +262,9 @@ body {
     rgba(0, 0, 0, 0.4) 60%,
     transparent 100%
   );
-  transform: translateX(calc(100% - 15px));
+  transform: translateX(0);
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: none;
+  pointer-events: auto;
   overflow-y: auto;
 }
 
@@ -273,26 +272,48 @@ body {
   display: none;
 }
 
-#bookmarks-grid::after {
-  content: '';
+#bookmarks-grid.dock-hidden {
+  transform: translateX(100%);
+  pointer-events: none;
+}
+
+#dock-toggle {
   position: absolute;
   top: 50%;
-  left: 6px;
+  right: 210px;
   transform: translateY(-50%);
-  width: 4px;
-  height: 60px;
-  background: rgba(255, 255, 255, 0.25);
-  border-radius: 4px;
-  transition: opacity 0.3s ease;
-}
-
-#bookmarks-grid.dock-visible {
-  transform: translateX(0);
-  pointer-events: auto;
-}
-
-#bookmarks-grid.dock-visible::after {
+  z-index: 51;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: right 0.5s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s, transform 0.25s;
   opacity: 0;
+}
+
+#dock-toggle:hover {
+  background: var(--surface-hover);
+  transform: translateY(-50%) scale(1.1);
+}
+
+#dock-toggle svg {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#dock-toggle.dock-hidden {
+  right: 20px;
+}
+
+#dock-toggle.dock-hidden svg {
+  transform: scaleX(-1);
 }
 
 .bookmark-card {

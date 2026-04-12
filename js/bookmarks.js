@@ -48,12 +48,6 @@ const bookmarks = [
     url: 'https://one.google.com',
     domain: 'one.google.com',
   },
-  {
-    name: 'WhatsApp',
-    url: 'https://web.whatsapp.com',
-    domain: 'web.whatsapp.com',
-    icon: 'https://cdn.simpleicons.org/whatsapp/%2325D366',
-  },
 ];
 
 function renderBookmarks() {
