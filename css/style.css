@@ -243,17 +243,56 @@ body {
 }
 
 #bookmarks-grid {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  padding: 20px 32px 32px;
-  max-height: 45vh;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  width: 230px;
+  padding: 40px 16px 40px 32px;
   display: flex;
-  flex-wrap: wrap-reverse;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
   justify-content: center;
   gap: 10px;
   opacity: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, transparent 100%);
+  background: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.4) 60%,
+    transparent 100%
+  );
+  transform: translateX(calc(100% - 15px));
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  overflow-y: auto;
+}
+
+#bookmarks-grid::-webkit-scrollbar {
+  display: none;
+}
+
+#bookmarks-grid::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 6px;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+  transition: opacity 0.3s ease;
+}
+
+#bookmarks-grid.dock-visible {
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+#bookmarks-grid.dock-visible::after {
+  opacity: 0;
 }
 
 .bookmark-card {
@@ -298,7 +337,7 @@ body {
   font-size: 0.7rem;
   font-weight: 500;
   letter-spacing: 0.02em;
-  color: rgba(255, 255, 255, 0.7); /* Lebih soft tapi tetap terbaca */
+  color: rgba(255, 255, 255, 0.7);
   text-align: center;
   white-space: nowrap;
   overflow: hidden;

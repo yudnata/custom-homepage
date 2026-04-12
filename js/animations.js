@@ -191,3 +191,20 @@ function animateSearchRing() {
 
   playRing();
 }
+
+document.addEventListener('mousemove', (e) => {
+  const grid = document.getElementById('bookmarks-grid');
+  if (!grid) return;
+
+  const isVisible = grid.classList.contains('dock-visible');
+
+  if (!isVisible) {
+    if (e.clientX > window.innerWidth - 60) {
+      grid.classList.add('dock-visible');
+    }
+  } else {
+    if (e.clientX < window.innerWidth - 270) {
+      grid.classList.remove('dock-visible');
+    }
+  }
+});
