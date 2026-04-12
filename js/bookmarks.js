@@ -20,6 +20,7 @@ const bookmarks = [
     name: 'Github Credit',
     url: 'https://github.com/settings/billing/premium_requests_usage',
     domain: 'github.com',
+    icon: 'https://cdn.simpleicons.org/github/white',
   },
   {
     name: 'SIMAK-NG',

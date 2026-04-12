@@ -75,12 +75,15 @@ function playSplashAnimation() {
   }
 
   splashTl
-    .to('#splash', {
+    .to('#splash-text, dotlottie-wc', {
       opacity: 0,
+      y: -20,
       duration: FADE_OUT,
       ease: 'power3.inOut',
     })
     .set('#splash', { display: 'none' });
+
+  splashTl.time(0.3);
 }
 
 document.fonts.ready.then(() => {
