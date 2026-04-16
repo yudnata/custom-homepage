@@ -2,17 +2,16 @@ function playSplashAnimation() {
   const currentGreeting = getGreeting();
   const splashText = document.getElementById('splash-text');
 
-  // Set greeting content before showing anything
   splashText.innerHTML = `${currentGreeting} <span id="name-part">Nata!</span>`;
 
-  const splashTl = gsap.timeline({ 
+  const splashTl = gsap.timeline({
     onComplete: () => {
+      document.documentElement.classList.remove('show-splash');
       document.getElementById('splash').style.display = 'none';
       startHomepage();
-    }
+    },
   });
 
-  // Start immediately with a clean fade in
   splashTl
     .to('#splash-text', {
       opacity: 1,
@@ -20,7 +19,7 @@ function playSplashAnimation() {
       duration: 0.4,
       ease: 'power2.out',
     })
-    .to({}, { duration: 0.4 }) // Short hold
+    .to({}, { duration: 0.4 })
     .to('#splash', {
       opacity: 0,
       duration: 0.3,
@@ -29,10 +28,36 @@ function playSplashAnimation() {
 }
 
 document.fonts.ready.then(() => {
-  playSplashAnimation();
+  const trigger = () => {
+    if (document.documentElement.classList.contains('skip-splash')) {
+      const splash = document.getElementById('splash');
+      if (splash) splash.style.display = 'none';
+      startHomepage(true);
+    } else {
+      playSplashAnimation();
+    }
+  };
+
+  if (
+    document.documentElement.classList.contains('skip-splash') ||
+    document.documentElement.classList.contains('show-splash')
+  ) {
+    trigger();
+  } else {
+    window.addEventListener('splash-decided', trigger);
+  }
 });
 
-function startHomepage() {
+function startHomepage(instant = false) {
+  if (instant) {
+    gsap.set('.clock-block, .search-wrapper, #bookmarks-grid, #dock-toggle, .bookmark-card', {
+      opacity: 1,
+      y: 0,
+    });
+    animateSearchRing();
+    return;
+  }
+
   const homepageTl = gsap.timeline();
 
   homepageTl

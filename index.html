@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0"
     />
-    <title>Nata's Homepage</title>
+    <title>Home</title>
     <link
       rel="preconnect"
       href="https://fonts.googleapis.com"
@@ -24,6 +24,59 @@
       rel="stylesheet"
       href="css/style.css"
     />
+    <style>
+      body {
+        background-color: #0c0c0c !important;
+      }
+      #splash {
+        background-color: transparent !important;
+      }
+      #splash::before {
+        display: none !important;
+      }
+      .clock-block,
+      .search-wrapper,
+      #bookmarks-grid,
+      #dock-toggle,
+      .bookmark-card {
+        opacity: 0;
+      }
+      #splash {
+        display: none !important;
+      }
+      .show-splash #splash {
+        display: flex !important;
+      }
+      .skip-splash #splash {
+        display: none !important;
+      }
+      .skip-splash .clock-block,
+      .skip-splash .search-wrapper,
+      .skip-splash #bookmarks-grid,
+      .skip-splash #dock-toggle,
+      .skip-splash .bookmark-card {
+        opacity: 1 !important;
+      }
+    </style>
+    <script>
+      window.bc = new BroadcastChannel('hp_sync');
+      window.bc.onmessage = (e) => {
+        if (e.data === 'ping') window.bc.postMessage('pong');
+        else if (e.data === 'pong') window.isFirstTab = false;
+      };
+
+      if (sessionStorage.getItem('hp_visited')) {
+        document.documentElement.classList.add('skip-splash');
+      } else {
+        window.isFirstTab = true;
+        window.bc.postMessage('ping');
+        setTimeout(() => {
+          document.documentElement.classList.add(window.isFirstTab ? 'show-splash' : 'skip-splash');
+          sessionStorage.setItem('hp_visited', '1');
+          window.dispatchEvent(new Event('splash-decided'));
+        }, 50);
+      }
+    </script>
   </head>
   <body>
     <div id="splash">
