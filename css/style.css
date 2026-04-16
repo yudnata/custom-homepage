@@ -31,14 +31,12 @@ body {
 #splash {
   position: fixed;
   inset: 0;
-  z-index: 100;
-  background-color: var(--bg);
-  background-image: url('../assets/background.jpg');
-  background-size: cover;
-  background-position: center;
+  z-index: 1000;
+  background-color: #0c0c0c;
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 1;
 }
 
 #splash::before {
@@ -67,6 +65,7 @@ body {
 }
 
 #splash-text {
+  opacity: 0;
   font-size: clamp(2.2rem, 6vw, 4rem);
   font-weight: 800;
   letter-spacing: -0.09em;
@@ -191,8 +190,8 @@ body {
   color: var(--text);
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
   border-radius: 999px;
   outline: none;
   transition:
@@ -288,14 +287,17 @@ body {
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
   color: var(--text);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: right 0.5s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s, transform 0.25s;
+  transition:
+    right 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.25s,
+    transform 0.25s;
   opacity: 0;
 }
 
@@ -326,8 +328,8 @@ body {
   padding: 10px 6px;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
   border-radius: 14px;
   cursor: pointer;
   text-decoration: none;

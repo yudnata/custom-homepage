@@ -1,90 +1,31 @@
 function playSplashAnimation() {
-  const words = ['Morning', 'Afternoon', 'Evening', 'Night'];
-  const currentGreeting = getGreeting().replace('Good ', '');
-  const wordEl = document.getElementById('word-cycle');
-  const wordMask = document.getElementById('word-mask');
+  const currentGreeting = getGreeting();
+  const splashText = document.getElementById('splash-text');
 
-  const getWordWidth = (text) => {
-    const tempSpan = document.createElement('span');
-    const style = window.getComputedStyle(wordEl);
-    tempSpan.style.visibility = 'hidden';
-    tempSpan.style.position = 'absolute';
-    tempSpan.style.whiteSpace = 'nowrap';
-    tempSpan.style.fontFamily = style.fontFamily;
-    tempSpan.style.fontSize = style.fontSize;
-    tempSpan.style.fontWeight = style.fontWeight;
-    tempSpan.style.letterSpacing = style.letterSpacing;
-    tempSpan.textContent = text;
-    document.body.appendChild(tempSpan);
-    const width = tempSpan.getBoundingClientRect().width;
-    document.body.removeChild(tempSpan);
-    return width + 8;
-  };
+  // Set greeting content before showing anything
+  splashText.innerHTML = `${currentGreeting} <span id="name-part">Nata!</span>`;
 
-  const targetIndex = words.indexOf(currentGreeting);
-  const startIndex = Math.max(0, targetIndex - 1);
-  const sequence = words.slice(startIndex, targetIndex + 1);
+  const splashTl = gsap.timeline({ 
+    onComplete: () => {
+      document.getElementById('splash').style.display = 'none';
+      startHomepage();
+    }
+  });
 
-  const EXIT_DUR = 0.15;
-  const ENTER_DUR = 0.25;
-  const RESIZE_DUR = 0.1;
-  const HOLD_START = 0.4;
-  const HOLD_END = 0.4;
-  const FADE_OUT = 0.4;
-
-  const splashTl = gsap.timeline({ onComplete: startHomepage });
-
-  wordEl.textContent = sequence[0];
-  gsap.set(wordEl, { opacity: 1, yPercent: 0 });
-  gsap.set(wordMask, { width: getWordWidth(sequence[0]) });
-
-  if (sequence.length === 1) {
-    splashTl.to({}, { duration: HOLD_START + HOLD_END });
-  } else {
-    splashTl.to({}, { duration: HOLD_START });
-
-    const currentWord = sequence[1];
-
-    splashTl
-      .to(wordEl, {
-        opacity: 0,
-        yPercent: -100,
-        skewY: -12,
-        duration: EXIT_DUR,
-        ease: 'power4.in',
-      })
-      .set(wordEl, { yPercent: 100, skewY: 12 });
-
-    splashTl.to(wordMask, {
-      width: getWordWidth(currentWord),
-      duration: RESIZE_DUR,
-      ease: 'power2.out',
-    });
-
-    splashTl.to(wordEl, {
-      opacity: 1,
-      yPercent: 0,
-      skewY: 0,
-      duration: ENTER_DUR,
-      ease: 'back.out(1.5)',
-      onStart: () => {
-        wordEl.textContent = currentWord;
-      },
-    });
-
-    splashTl.to({}, { duration: HOLD_END });
-  }
-
+  // Start immediately with a clean fade in
   splashTl
     .to('#splash-text', {
-      opacity: 0,
-      y: -20,
-      duration: FADE_OUT,
-      ease: 'power3.inOut',
+      opacity: 1,
+      y: 0,
+      duration: 0.4,
+      ease: 'power2.out',
     })
-    .set('#splash', { display: 'none' });
-
-  splashTl.time(0.3);
+    .to({}, { duration: 0.4 }) // Short hold
+    .to('#splash', {
+      opacity: 0,
+      duration: 0.3,
+      ease: 'power2.inOut',
+    });
 }
 
 document.fonts.ready.then(() => {
