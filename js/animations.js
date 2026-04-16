@@ -76,7 +76,7 @@ function playSplashAnimation() {
   }
 
   splashTl
-    .to('#splash-text, dotlottie-wc', {
+    .to('#splash-text', {
       opacity: 0,
       y: -20,
       duration: FADE_OUT,
