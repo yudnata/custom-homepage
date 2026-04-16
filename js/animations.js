@@ -10,7 +10,8 @@ function playSplashAnimation() {
     tempSpan.style.visibility = 'hidden';
     tempSpan.style.position = 'absolute';
     tempSpan.style.whiteSpace = 'nowrap';
-    tempSpan.style.font = style.font;
+    tempSpan.style.fontFamily = style.fontFamily;
+    tempSpan.style.fontSize = style.fontSize;
     tempSpan.style.fontWeight = style.fontWeight;
     tempSpan.style.letterSpacing = style.letterSpacing;
     tempSpan.textContent = text;
